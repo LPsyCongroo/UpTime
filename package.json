@@ -1,0 +1,16 @@
+{
+  "name": "uptime",
+  "version": "1.0.0",
+  "description": "RESTful API",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ali Rehmatullah",
+  "license": "ISC"
+}
