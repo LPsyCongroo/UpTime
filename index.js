@@ -12,11 +12,11 @@ const _data = require('./lib/data');
 
 // TESTING
 // @TODO delete this
-_data.read('test', 'newdFile', (err, data) => {
-  console.log('Error: ', err, 'Data: ', data);
+_data.delete('test', 'newFile', err => {
+  console.log('this was the error: ', err);
 });
 
-// Server Logic for both http and https server
+// Server Logic for both http and https server 
 const unifiedServer = (req, res) => {
 
   // Get URL and parse it
