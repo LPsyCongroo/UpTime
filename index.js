@@ -5,16 +5,11 @@ const http = require('http');
 const https = require('https');
 const url = require('url');
 const { StringDecoder } = require('string_decoder');
-const config = require('./config');
 const fs = require('fs');
 
-const _data = require('./lib/data');
-
-// TESTING
-// @TODO delete this
-_data.delete('test', 'newFile', err => {
-  console.log('this was the error: ', err);
-});
+const config = require('./lib/config');
+const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // Server Logic for both http and https server 
 const unifiedServer = (req, res) => {
@@ -63,7 +58,7 @@ const unifiedServer = (req, res) => {
       queryStringObject,
       method,
       headers,
-      payload: buffer
+      payload: helpers.parseJsonToObject(buffer)
     }
 
     // Route the request to the handler specified in the router
@@ -79,10 +74,11 @@ const unifiedServer = (req, res) => {
 
       // Log the request
       console.log(`Request received! \n${JSON.stringify({
-        statusCode: statusCode,
-        payloadString: payloadString,
-        payload: buffer,
-        query: queryStringObject
+        statusCode,
+        method,
+        query: queryStringObject,
+        requestPayload: buffer,
+        responsePayload: payloadString        
       }, null, 2)}`);
 
     })
@@ -109,20 +105,8 @@ httpsServer.listen(config.httpsPort, () =>
   console.log(`HTTPS server listening on port ${config.httpsPort} in ${config.envName} mode.`)
 );
 
-// Define handlers
-const handlers = {};
-
-// Ping handler
-handlers.ping = (data, callback) => {
-  callback(200)
-}
-
-// 404 not found handler
-handlers.notFound = (data, callback) => {
-  callback(404);
-}
-
 // Define a request router
 const router = {
-  'sample': handlers.sample
+  ping: handlers.ping,
+  users: handlers.users
 }

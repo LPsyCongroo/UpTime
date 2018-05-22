@@ -1,3 +1,4 @@
 /node_modules
 
 promise.js
+/lib/config.js
